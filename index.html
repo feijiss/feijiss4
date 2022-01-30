@@ -1,357 +1,115 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>闵闵我爱你</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      background-color: #000;
-    }
-
-    .page {
-      width: 100vw;
-      height: 100vh;
-      background-color: #000000;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="myAudio">
-    <audio class="music" src="./MP3.mp3" autoplay></audio>
-  </div>
-  <div class="page">
-    <canvas></canvas>
-  </div>
-</body>
-<script>
-
-  setTimeout(() => {
-    loadStatic(['./2.png']).then(statics => {
-
-      initfFires()
-
-      function initfFires() {
-        let canvas = document.querySelector('.page canvas')
-        let ctx = canvas.getContext('2d')
-        let width = window.innerWidth
-        let height = window.innerHeight
-        canvas.width = width
-        canvas.height = height
-        let balls = []
-        let fires = []
-        let timer = null
-        let count = 0
-        // 控制烟花爆炸的数量，显示文字时间=爆炸数量×爆炸速度
-        let ballAll = 33
-        // 第二个参数控制字体的像素密度
-        let points1 = getImagePoints(statics[0], 1);
-        var textFires = []
-
-
-        timer = setInterval(() => {
-          if (count == ballAll) {
-            clearInterval(timer)
-            count == 0
-            timer == null
-
-            balls.push(
-              new Ball({
-                r: 2,
-                x: width / 2,
-                y: height,
-                vx: 0,
-                vy: -10,
-                end() {
-                  if (this.vy > 1) {
-                    balls.splice(balls.indexOf(this), 1)
-                    for (let i = 0; i < 60; i++) {
-                      let power = Math.random() * 10
-                      let vx = Math.cos(i * 6 * Math.PI / 180) * power
-                      let vy = Math.sin(i * 6 * Math.PI / 180) * power
-                      fires.push(
-                        new Fire({
-                          r: 2,
-                          x: this.x,
-                          y: this.y,
-                          vx: vx,
-                          vy: vy,
-                          g: 0.05,
-                          end() {
-                            if (this.life < 10) {
-                              fires.splice(fires.indexOf(this), 1)
-                            }
-                          }
-                        })
-                      )
-                    }
-                    for (let i = 0; i < points1.length; i++) {
-                      let power = 0.05
-                      let vx = (points1[i].x - points1.w / 2) * power
-                      let vy = (points1[i].y - points1.h / 2) * power
-                      textFires.push(
-                        new TextFires({
-                          x: this.x,
-                          y: this.y,
-                          vx: vx,
-                          vy: vy,
-                          // 控制爆炸字的小球的半径
-                          r: 2,
-                          end() {
-                            if (this.life < 10) {
-                              textFires.splice(textFires.indexOf(this), 1)
-                            }
-                          }
-                        })
-                      )
-                    }
-                  }
-                }
-              })
-            )
-
-          } else {
-            count++
-            balls.push(
-              new Ball({
-                // 控制上升小球的半径
-                r: 3,
-                x: Math.random() * width / 3 + width / 3,
-                y: height,
-                vx: Math.random() * 2 - 1,
-                vy: - Math.random() * 2 - 9,
-                end() {
-                  if (this.vy > 1) {
-                    balls.splice(balls.indexOf(this), 1)
-                    let size = Math.random() * 13
-                    for (let i = 0; i < 60; i++) {
-                      let power = Math.random() * size
-                      let vx = Math.cos(i * 6 * Math.PI / 180) * power
-                      let vy = Math.sin(i * 6 * Math.PI / 180) * power
-                      fires.push(
-                        new Fire({
-                          // 控制爆炸烟花的半径
-                          r: 4,
-                          x: this.x,
-                          y: this.y,
-                          vx: vx,
-                          vy: vy,
-                          // 控制烟花爆炸后下坠速度
-                          g: 0.1,
-                          end() {
-                            if (this.life < 10) {
-                              fires.splice(fires.indexOf(this), 1)
-                            }
-                          }
-                        })
-                      )
-                    }
-                  }
-                }
-              })
-            )
-          }
-          // 控制烟花爆炸的速度，越小越快
-        }, 200)
-
-        loop()
-        function loop() {
-
-          if (balls.length) {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'
-            ctx.fillRect(0, 0, width, height)
-          } else {
-            ctx.fillStyle = 'rgb(0, 0, 0)'
-            ctx.fillRect(0, 0, width, height)
-          }
-
-          for (let i = 0; i < balls.length; i++) {
-            balls[i].updated()
-            balls[i].render()
-          }
-
-          for (let i = 0; i < fires.length; i++) {
-            fires[i].updated()
-            fires[i].render()
-          }
-
-          for (let i = 0; i < textFires.length; i++) {
-            textFires[i].updated()
-            textFires[i].render()
-          }
-          requestAnimationFrame(loop)
-        }
-
-        class Ball {
-          constructor(options) {
-            this.settings = Object.assign({
-              color: 'yellow',
-              r: 2,
-              g: 0.1,
-              enf() { }
-            }, options)
-            for (let attr in this.settings) {
-              this[attr] = this.settings[attr]
-            }
-          }
-          updated() {
-            this.x += this.vx
-            this.y += this.vy
-            this.vy += this.g
-          }
-          render() {
-            ctx.beginPath()
-            ctx.fillStyle = this.color
-            ctx.arc(this.x, this.y, this.r, 0, 360 * Math.PI / 180)
-            ctx.closePath()
-            ctx.fill()
-            this.end()
-          }
-        }
-
-        class Fire {
-          constructor(options) {
-            let cr = (Math.random() * 225)
-            let cg = (Math.random() * 225)
-            let cb = (Math.random() * 225)
-            this.settings = Object.assign({
-              color: 'rgb(' + cr + ',' + cg + ',' + cb + ')',
-              r: 2,
-              g: 0.1,
-              fs: 0.95,
-              life: 100
-            }, options)
-            for (let attr in this.settings) {
-              this[attr] = this.settings[attr]
-            }
-          }
-          updated() {
-            this.x += this.vx
-            this.y += this.vy
-            this.vy += this.g
-            this.vx *= this.fs
-            this.vy *= this.fs
-            if (this.life > 0 && this.life < 300) {
-              this.life--
-            }
-          }
-          render() {
-            ctx.beginPath()
-            ctx.fillStyle = this.color
-            ctx.arc(this.x, this.y, this.r * Math.min(this.life, 100) / 100, 0, 360 * Math.PI / 180)
-            ctx.closePath()
-            ctx.fill()
-            this.end()
-          }
-        }
-
-        class TextFires {
-          constructor(options) {
-            let cr = (Math.random() * 225)
-            let cg = (Math.random() * 225)
-            let cb = (Math.random() * 225)
-            this.settings = Object.assign({
-              // 字体颜色
-              color: '#fff',
-              r: 1,
-              g: 0.1,
-              fs: 0.95,
-              // 控制显示时间，越大越久，300以上永久
-              life: 200
-            }, options)
-            for (let attr in this.settings) {
-              this[attr] = this.settings[attr]
-            }
-          }
-          updated() {
-            this.x += this.vx
-            this.y += this.vy
-            if (this.life < 50) {
-              this.vy += this.g
-            }
-            this.vx *= this.fs
-            this.vy *= this.fs
-            if (this.life > 0 && this.life < 300) {
-              this.life--
-            }
-          }
-          render() {
-            ctx.beginPath()
-            ctx.fillStyle = this.color
-            ctx.arc(this.x, this.y, this.r * Math.min(this.life, 100) / 100, 0, 360 * Math.PI / 180)
-            ctx.closePath()
-            ctx.fill()
-            this.end()
-          }
-        }
-
-        function getImagePoints(img, level = 5) {
-          let width = img.width
-          let height = img.height
-          let points = []
-          let x = Math.floor(width / level)
-          let y = Math.floor(height / level)
-          let imgData = null
-          ctx.clearRect(0, 0, width, height)
-          ctx.beginPath()
-          ctx.drawImage(img, 0, 0)
-          ctx.closePath()
-
-          imgData = ctx.getImageData(0, 0, width, height)
-          ctx.clearRect(0, 0, width, height)
-          points.w = width
-          points.h = height
-
-          for (let i = 0; i < y; i++) {
-            for (let j = 0; j < x; j++) {
-              let colors = getImageColor(imgData, j * level, i * level)
-              // 控制识别颜色，取rgb 的r
-              if (colors[0] == 0) {
-                points.push({ x: j * level, y: i * level })
-              }
-            }
-          }
-
-          getImageColor(imgData,);
-
-          return points
-        }
-
-        function getImageColor(imgData, x, y) {
-          let w = imgData.width
-          let h = imgData.height
-          let d = imgData.data
-          let colors = []
-          colors[0] = d[(y * w + x) * 4]
-          colors[1] = d[(y * w + x) * 4 + 1]
-          colors[2] = d[(y * w + x) * 4 + 2]
-          colors[3] = d[(y * w + x) * 4 + 3]
-
-          return colors
-        }
+<!--
+ * @Author: your name
+ * @Date: 2020-12-21 09:07:44
+ * @LastEditTime: 2021-10-13 11:01:00
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \firework-master\酷炫表白烟花\fire.html
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script
+      id="jqbb"
+      src="https://libs.baidu.com/jquery/1.11.1/jquery.min.js"
+    ></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: black;
+        user-select: none;
+        margin: 0;
       }
-    })
-  }, 0);
 
-  function loadStatic(arr) {
-    let promises = []
-    for (let i = 0; i < arr.length; i++) {
-      let promise = new Promise(function (resolve, reject) {
-        let img = new Image()
-        img.src = arr[i]
-        img.onload = function () {
-          resolve(img)
-        }
-      })
-      promises.push(promise)
-    }
-    return Promise.all(promises)
-  }
+      .city {
+        width: 100%;
+        position: fixed;
+        bottom: 0px;
+        z-index: 100;
+      }
 
-</script>
+      .city img {
+        width: 100%;
+      }
 
+      audio {
+        opacity: 0;
+      }
+      .shape {
+        z-index: 9999 !important;
+      }
+    </style>
+    <title>浪漫烟花</title>
+    <!-- 弹窗样式 -->
+    <link href="modal.css" rel="stylesheet" />
+  </head>
+
+  <body onselectstart="return false">
+    <div class="star comet"></div>
+    <script src="js/index.js"></script>
+
+    <!--对话部分-->
+    <div class="share_img"><img src="img/xin.png" alt="" /></div>
+    <div class="page_one">
+      <div class="content">
+        <div class="text_wrapper">
+          <img class="xin" src="img/xin.png" alt="" />
+          <div class="text">答应你的烟花，你愿意陪我去看吗？</div>
+        </div>
+      </div>
+      <div class="btn-groups">
+        <div class="heart-btn">
+          <div id="yes" class="btn btn-a"><span>愿意</span></div>
+        </div>
+        <div id="no" class="btn btn-b"><span>不愿意</span></div>
+      </div>
+    </div>
+    <!--烟花部分-->
+    <canvas id="cas" style="background-color: rgba(0, 5, 24, 1); z-index: 9999">
+      浏览器不支持canvas
+    </canvas>
+    <div class="city">
+      <img src="img/city.png" alt="" />
+    </div>
+    <img src="img/moon.png" alt="" id="moon" style="visibility: hidden" />
+    <div style="display: none">
+     <div class="shape">🏮2021你快乐吗</div>
+	  <div class="shape">🏮2022你快乐吗</div>
+	  <div class="shape">🏮2023你快乐吗</div>
+	  <div class="shape">🏮2024你快乐吗</div>
+	  <div class="shape">🏮2025你快乐吗</div>
+	  <div class="shape">🏮2026你快乐吗</div>
+	  <div class="shape">🏮2027你快乐吗</div>
+	 
+	  
+      <!-- <div class="shape"><img src="./assets/img/02.png" alt="" /></div> -->
+      <!-- <div class="shape">🏮小可爱</div> -->
+      <!-- <div class="shape"><img src="./assets/img/01.png" alt="" /></div> -->
+      <!-- <div class="shape">🏮白白胖胖</div> -->
+      <!-- <div class="shape"><img src="./assets/img/01.png" alt="" /></div> -->
+      <!-- <div class="shape">🏮牛气敏敏</div> -->
+      <!-- <div class="shape">💘💘💘</div> -->
+      <!-- <div class="shape"><img src="./assets/img/02.png" alt="" /></div> -->
+      <!-- <div class="shape">🏮蠢萌可爱</div> -->
+      <!-- <div class="shape"><img src="./assets/img/02.png" alt="" /></div> -->
+    </div>
+    <!--音乐部分/可替换-->
+    <audio autoplay loop id="music">
+      <source src="mp3/xinnian.mp3" />
+    </audio>
+    <iframe
+      id="iframMusic"
+      allow="autoplay"
+      style="display: none"
+      src="mp3/xinnian.mp3"
+    ></iframe>
+    <script src="jquery.min.js"></script>
+    <script src="fire.js"></script>
+    <script src="talk.js"></script>
+  </body>
 </html>
