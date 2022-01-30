@@ -18,12 +18,12 @@ $(function () {
     });
   });
   $("#no").click(function (event) {
-    modal("啊啊啊你点错了喂！！", A);
+    modal("啊啊啊你点错了呢！！", A);
   });
 });
 
 function A() {
-  modal("哇！！有毒啊", B);
+  modal("哈哈哈小宝！", B);
 }
 
 function B() {
@@ -31,15 +31,15 @@ function B() {
 }
 
 function C() {
-  modal("好吧~那我走啦", D);
+  modal("你猜猜是什么哟！！", D);
 }
 
 function D() {
-  modal("拒绝我，必不可能", E);
+  modal("快快快点我！！", E);
 }
 
 function E() {
-  modal("我机智的一批，贼聪明", F);
+  modal("超级无敌小猪猪！！", F);
 }
 
 function F() {
