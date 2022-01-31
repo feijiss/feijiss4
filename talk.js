@@ -8,13 +8,16 @@
  */
 $(function () {
   // 开始放烟花
-  initAnimate();
+  // initAnimate();
   $("#yes").click(function (event) {
     modal("嘻嘻小媛宝，就知道你会愿意的！(^_^)", function () {
       $(".page_one").addClass("hide");
       $(".page_two").removeClass("hide");
+	  // 开始放烟花
+	   initAnimate();
       typeWrite();
         fireworks();
+		 
     });
   });
   $("#no").click(function (event) {
@@ -27,7 +30,7 @@ function A() {
 }
 
 function B() {
-  modal("要失去我啦", C);
+  modal("我是猪猪哟！", C);
 }
 
 function C() {
