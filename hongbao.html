@@ -10,7 +10,10 @@
                 body { margin: 0; padding: 0; position: relative;  background-position: center; /*background-repeat: no-repeat;*/ width: 100%; height: 100%; background-size: 100% 100%; }
 
             </style>
-       <audio autoplay id="music" loop="loop">
+			<audio autoplay lood="lood" >
+			<source src="./mp3/hyl.mp3" />
+			</audio>
+       <audio autoplay id="music" >
       <source src="" />
 	  <iframe
 	    id="iframMusic"
@@ -221,6 +224,9 @@
                             duration: 8000,
                             callback: function() {
                                 /*alert(txt);*/
+								var player = $("#music")[0];
+								player.src="./mp3/stop.mp3";
+								player.play();
                                 swal({title: "获得" + txt + "红包", imageUrl: "images/gx.png"});
 
                                 bRotate = !bRotate;
@@ -286,23 +292,23 @@
                         switch (item) {
                             case 1:
                                 //var angle = [26, 88, 137, 185, 235, 287, 337];
-                                rotateFn(1, 55, '888元');
+                                rotateFn(1, 55, '199元');
                                 break;
                             case 2:
                                 //var angle = [88, 137, 185, 235, 287];
-                                rotateFn(2, 140, '388元');
+                                rotateFn(2, 140, '188元');
                                 break;
                             case 3:
                                 //var angle = [137, 185, 235, 287];
-                                rotateFn(3, 199, '188元');
+                                rotateFn(3, 199, '168元');
                                 break;
                             case 4:
                                 //var angle = [137, 185, 235, 287];
-                                rotateFn(4, 269, '88元');
+                                rotateFn(4, 269, '99元');
                                 break;
                             case 5:
                                 //var angle = [185, 235, 287];
-                                rotateFn(5, 341, '8元');
+                                rotateFn(5, 341, '9.9元');
                                 break;
 
                         }
@@ -329,11 +335,11 @@
 
 <!-- 以下是统计及其他信息，与演示无关，不必理会 -->
 
-<p class="vad">
+<!-- <p class="vad">
     <a href="http://www.erdangjiade.com/" target="_blank">erdangjiade.com</a>
     <a href="http://www.erdangjiade.com/js/889.html" target="_blank">说 明</a>
     <a href="http://www.erdangjiade.com/js/889.html" target="_blank">下 载</a>
-</p>
+</p> -->
 <style type="text/css">
     .vad { margin: 120px 0 5px; font-family: Consolas,arial,宋体,sans-serif; text-align:center;}
     .vad a { display: inline-block; height: 36px; line-height: 36px; margin: 0 5px; padding: 0 50px; font-size: 14px; text-align:center; color:#eee; text-decoration: none; background-color: #222;}
