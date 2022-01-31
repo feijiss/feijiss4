@@ -18,11 +18,11 @@ document.getElementById("iframMusic").onload = function () {
   };
 };
  // 开始放烟花
-function initAnimate() {
-  drawBg();
-  lastTime = new Date();
-  animate();
-}
+// function initAnimate() {
+//   drawBg();
+//   lastTime = new Date();
+//   animate();
+// }
 var lastTime;
 
 function animate() {
