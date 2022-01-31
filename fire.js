@@ -269,7 +269,7 @@ function putValue(canvas, context, ele, dr, callback) {
       )
     ) {
       // 移动端字体
-      fontSize = 180;
+      fontSize = 150;
       console.log("移动端");
     } else {
       // pc端字体
