@@ -11,7 +11,7 @@ $(function () {
   initAnimate();
   $("#yes").click(function (event) {
     modal("嘻嘻小媛宝，就知道你会愿意的！(^_^)", function () {
-      // $(".page_one").addClass("hide");
+      $(".page_one").addClass("hide");
       $(".page_two").removeClass("hide");
       typeWrite();
         fireworks();
