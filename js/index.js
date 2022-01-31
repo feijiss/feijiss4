@@ -8,4 +8,4 @@ var generateStars = function generateStars(f) {
         document.body.appendChild(d)
     }
 };
-generateStars(150);
+generateStars(50);
