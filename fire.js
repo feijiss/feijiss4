@@ -10,19 +10,22 @@ var bigbooms = [];
 //     initAnimate();
 // };
 
-document.getElementById("iframMusic").onload = function () {
-  var music = document.getElementById("music");
-  music.src = "./mp3/music.mp3";
-  music.oncanplay = function () {
-    music.play();
-  };
-};
+// function bfyhyy(){
+// document.getElementById("iframMusic").onload = function () {
+//   var music = document.getElementById("music");
+//   music.src = "./mp3/music.mp3";
+//   music.oncanplay = function () {
+//     music.play();
+//   };
+// };
+// }bfyhyy();
  // 开始放烟花
-// function initAnimate() {
-//   drawBg();
-//   lastTime = new Date();
-//   animate();
-// }
+function initAnimate() {
+	
+  drawBg();
+  lastTime = new Date();
+  animate();
+}
 var lastTime;
 
 function animate() {
