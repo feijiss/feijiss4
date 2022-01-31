@@ -78,6 +78,16 @@
     </div>
     <img src="img/moon.png" alt="" id="moon" style="visibility: hidden" />
     <div style="display: none">
+<!-- 		<script>
+			document.getElementById("iframMusic").onload = function () {
+			   var music = document.getElementById("music");
+			   music.src = "./mp3/music.mp3";
+			   music.oncanplay = function () {
+			     music.play();
+			  };
+			 };
+		</script>
+	 -->
      <div class="shape">🏮爱你的猪猪！</div>
 	  <div class="shape">🏮宝宝新年快乐呀！</div>
 	  <div class="shape">🏮2022越来越好！</div>
@@ -99,7 +109,7 @@
       <!-- <div class="shape"><img src="./assets/img/02.png" alt="" /></div> -->
     </div>
     <!--音乐部分/可替换-->
-    <audio autoplay loop id="music" loop="loop">
+    <audio autoplay id="music" loop="loop">
       <source src="mp3/xinnian.mp3" />
     </audio>
     <iframe
