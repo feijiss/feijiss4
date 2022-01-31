@@ -10,8 +10,14 @@
                 body { margin: 0; padding: 0; position: relative;  background-position: center; /*background-repeat: no-repeat;*/ width: 100%; height: 100%; background-size: 100% 100%; }
 
             </style>
-<audio autoplay id="music" loop="loop">
-      <source src="mp3/xinnian.mp3" />
+       <audio autoplay id="music" loop="loop">
+      <source src="" />
+	  <iframe
+	    id="iframMusic"
+	    allow="autoplay"
+	    style="display: none"
+	    src=""
+	  ></iframe>
     </audio>
             <script type="text/javascript" src="js/jquery.min.js"></script>
             <script type="text/javascript" src="js/awardRotate.js"></script>
@@ -40,6 +46,7 @@
 
 
                 function init() {
+				
                     //alert("message3");
                     container = document.createElement('div');//container：画布实例;
                     document.body.appendChild(container);
@@ -262,7 +269,16 @@
                     };
 
                     $('.pointer').click(function() {
-
+	    //              document.getElementById("iframMusic").onload = function () {
+					//   var music = document.getElementById("music");
+					//   music.src = "./mp3/xinnian.mp3";
+					//   music.oncanplay = function () {
+					//     music.play();
+					//   };
+					// };
+					var player = $("#music")[0]; 
+					player.src="./mp3/runing.mp3";
+					player.play();
                         if (bRotate)
                             return;
                         var item = rnd(1, 5);
