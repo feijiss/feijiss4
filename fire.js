@@ -269,11 +269,11 @@ function putValue(canvas, context, ele, dr, callback) {
       )
     ) {
       // 移动端字体
-      fontSize = 150;
+      fontSize = 100;
       console.log("移动端");
     } else {
       // pc端字体
-      fontSize = 200;
+      fontSize = 100;
     }
     context.font = fontSize + "px 宋体 bold";
     context.textAlign = "center";
